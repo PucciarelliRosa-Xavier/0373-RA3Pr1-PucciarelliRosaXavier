@@ -8,7 +8,7 @@ let message = document.getElementById("missatge");
 
 // Validació del formulari
 function validateForm() {
-    let name = inputName.value;
+    let name = inputName.value.trim(); //trim elimina espais en blabnc
     let exam = parseFloat(inputExam.value); //convertir les notes en valors numerics flotants si no es tractarien com strings
     let practices = parseFloat(inputPractices.value);
     let attitude = parseFloat(inputAttitude.value);
@@ -41,4 +41,26 @@ function validateForm() {
 function showError(text) {
     message.textContent = text;
     message.className = "error"; 
+}
+
+// Calcular nota final
+function calculateFinalGrade(exam, practices, attitude) {
+    return (exam * 0.6) + (practices * 0.3) + (attitude * 0.1);
+}
+// Crear objecte alumne per a que es pogui mostrar en la taula mes endavant
+function createStudent() {
+    let name = inputName.value.trim();
+    let exam = parseFloat(inputExam.value);
+    let practices = parseFloat(inputPractices.value);
+    let attitude = parseFloat(inputAttitude.value);
+
+    let finalGrade = calculateFinalGrade(exam, practices, attitude);
+
+    return {
+        name: name,
+        exam: exam,
+        practices: practices,
+        attitude: attitude,
+        finalGrade: finalGrade
+    };
 }
