@@ -5,6 +5,8 @@ let inputPractices = document.getElementById("practiques");
 let inputAttitude = document.getElementById("actitud");
 let message = document.getElementById("missatge");
 let form = document.getElementById("formulariAlumne");
+let tableBody = document.getElementById("cosTaula");
+
 
 //Array per guardarels alumnes
 let students = [];
@@ -83,6 +85,29 @@ form.addEventListener("submit", function(event) {
     students.push(student);
 
     showSuccess("Alumne afegit correctament");
+    showStudents();
 
     form.reset();
 });
+
+//Mostar alumnes en la taula
+function showStudents() {
+    tableBody.innerHTML = "";
+
+    students.forEach(function(student) {
+        let status = student.finalGrade >= 5 ? "Aprovat" : "Suspès";
+        let cssClass = student.finalGrade >= 5 ? "aprovat" : "suspes";
+
+        let row = `
+            <tr>
+                <td>${student.name}</td>
+                <td>${student.exam.toFixed(2)}</td>
+                <td>${student.practices.toFixed(2)}</td>
+                <td>${student.attitude.toFixed(2)}</td>
+                <td>${student.finalGrade.toFixed(2)}</td>
+                <td class="${cssClass}">${status}</td>
+            </tr>
+        `;
+        tableBody.innerHTML += row;
+    });
+}
