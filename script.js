@@ -10,33 +10,33 @@ let btnAsc = document.getElementById("ordenarAsc");
 let btnDesc = document.getElementById("ordenarDesc");
 
 
-//Array per guardarels alumnes
+//Array per guardar els alumnes
 let students = [];
 
 // Validació del formulari
 function validateForm() {
     let name = inputName.value.trim(); //trim elimina espais en blabnc
-    let exam = parseFloat(inputExam.value); //convertir les notes en valors numerics flotants si no es tractarien com strings
+    let exam = parseFloat(inputExam.value); //convertir les notes en valors numerics flotants, si no es tractarien com strings
     let practices = parseFloat(inputPractices.value);
     let attitude = parseFloat(inputAttitude.value);
 
-    if (name === "") { //comprova que hi hagi algo escrit al camp de nom de alumne
+    if (name === "") { //comprova que hi hagi algo escrit al camp de nom d'alumne
         showError("El nom no pot estar buit");
         return false;
     }
- //comprova que les notes siguin un valor numeric i que estuiguin entre 0 y 10
+ //comprova que les notes siguin un valor numeric i que estiguin entre 0 i 10
     if (isNaN(exam) || exam < 0 || exam > 10) {
-        showError("error");
+        showError("Error. La nota ha de ser un valor entre 0 i 10");
         return false;
     }
 
     if (isNaN(practices) || practices < 0 || practices > 10) {
-        showError("error");
+        showError("Error. La nota ha de ser un valor entre 0 i 10");
         return false;
     }
 
     if (isNaN(attitude) || attitude < 0 || attitude > 10) {
-        showError("error");
+        showError("Error. La nota ha de ser un valor entre 0 i 10");
         return false;
     }
 
@@ -44,16 +44,18 @@ function validateForm() {
 }
 
 
-// Missatge de error si el formulari no pasa la validacio
+// Missatge de error si el formulari no pasa la validació
 function showError(text) {
     message.textContent = text;
     message.className = "error"; 
 }
+
 // Missatge si el form es correcte
 function showSuccess(text) {
     message.textContent = text;
     message.className = "correcte";
 }
+
 // Calcular nota final
 function calculateFinalGrade(exam, practices, attitude) {
     return (exam * 0.6) + (practices * 0.3) + (attitude * 0.1);
@@ -67,7 +69,7 @@ function createStudent() {
 
     let finalGrade = calculateFinalGrade(exam, practices, attitude);
 
-    return {
+    return { 
         name: name,
         exam: exam,
         practices: practices,
@@ -75,7 +77,7 @@ function createStudent() {
         finalGrade: finalGrade
     };
 }
-//quan l'usuari envii el formulari es valida i si pasa la validacio es crea l-alumne i s'afegeix a l'array
+//Quan l'usuari envii el formulari es valida i si pasa la validacio es crea l-alumne i s'afegeix a l'array
 form.addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -96,11 +98,11 @@ form.addEventListener("submit", function(event) {
 function showStudents() {
     tableBody.innerHTML = "";
 
-    students.forEach(function(student) {
+    students.forEach(function(student) { //Si la nota es igual o major a 5, s'apliquen la classe i el text Aprovat, si no el text i la classe serà suspès
         let status = student.finalGrade >= 5 ? "Aprovat" : "Suspès";
         let cssClass = student.finalGrade >= 5 ? "aprovat" : "suspes";
-
-        let row = `
+        //creació d'una nova fila per l'alumne amb diferents columnes per a cada valor (nom, nota examen, nota pràctiques, nota actitud i nota final.
+        let row = ` 
             <tr>
                 <td>${student.name}</td>
                 <td>${student.exam.toFixed(2)}</td>
@@ -113,6 +115,7 @@ function showStudents() {
         tableBody.innerHTML += row;
     });
 }
+
 // Ordenar alumnes per nota 
 btnAsc.addEventListener("click", function() {
     students.sort(function(a, b) {
