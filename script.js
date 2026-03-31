@@ -4,7 +4,10 @@ let inputExam = document.getElementById("examen");
 let inputPractices = document.getElementById("practiques");
 let inputAttitude = document.getElementById("actitud");
 let message = document.getElementById("missatge");
+let form = document.getElementById("formulariAlumne");
 
+//Array per guardarels alumnes
+let students = [];
 
 // Validació del formulari
 function validateForm() {
@@ -42,7 +45,11 @@ function showError(text) {
     message.textContent = text;
     message.className = "error"; 
 }
-
+// Missatge si el form es correcte
+function showSuccess(text) {
+    message.textContent = text;
+    message.className = "correcte";
+}
 // Calcular nota final
 function calculateFinalGrade(exam, practices, attitude) {
     return (exam * 0.6) + (practices * 0.3) + (attitude * 0.1);
@@ -64,3 +71,18 @@ function createStudent() {
         finalGrade: finalGrade
     };
 }
+//quan l'usuari envii el formulari es valida i si pasa la validacio es crea l-alumne i s'afegeix a l'array
+form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    if (validateForm() == false) {
+        return;
+    }
+
+    let student = createStudent();
+    students.push(student);
+
+    showSuccess("Alumne afegit correctament");
+
+    form.reset();
+});
