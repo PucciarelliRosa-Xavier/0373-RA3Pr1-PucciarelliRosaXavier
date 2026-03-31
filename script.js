@@ -6,6 +6,8 @@ let inputAttitude = document.getElementById("actitud");
 let message = document.getElementById("missatge");
 let form = document.getElementById("formulariAlumne");
 let tableBody = document.getElementById("cosTaula");
+let btnAsc = document.getElementById("ordenarAsc");
+let btnDesc = document.getElementById("ordenarDesc");
 
 
 //Array per guardarels alumnes
@@ -111,3 +113,17 @@ function showStudents() {
         tableBody.innerHTML += row;
     });
 }
+// Ordenar alumnes per nota 
+btnAsc.addEventListener("click", function() {
+    students.sort(function(a, b) {
+        return a.finalGrade - b.finalGrade;
+    });
+    showStudents();
+});
+
+btnDesc.addEventListener("click", function() {
+    students.sort(function(a, b) {
+        return b.finalGrade - a.finalGrade;
+    });
+    showStudents();
+});
